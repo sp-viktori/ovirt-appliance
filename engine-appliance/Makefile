@@ -49,7 +49,8 @@ TMPREPOS = tmp.repos
 rpm srpm: ovirt-engine-appliance-${DISTRO_FULLNAME}.spec ovirt-engine-appliance-${DISTRO_FULLNAME}.qcow2 ovirt-engine-appliance-${DISTRO_FULLNAME}-manifest-rpm
 	rm -fr "$(TMPREPOS)"
 	mkdir -p $(TMPREPOS)/{SPECS,RPMS,SRPMS,SOURCES}
-	$(RPMBUILD) --define="_topdir `pwd`/$(TMPREPOS)" --define "_sourcedir `pwd`" -ba $<
+	$(RPMBUILD) --define="_topdir `pwd`/$(TMPREPOS)" --define "_sourcedir `pwd`" \
+	    --define="_binary_payload w1.zstdio" --define="_source_payload w1.zstdio" -ba $<
 	@echo
 	@echo "srpm and rpm(s) available at '$(TMPREPOS)'"
 	@echo

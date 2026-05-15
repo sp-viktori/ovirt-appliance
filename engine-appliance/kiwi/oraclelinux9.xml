@@ -66,6 +66,12 @@
     <packages type="image" profiles="cbs-release">
         <package name="centos-release-ovirt45"/>
     </packages>
+    <!-- StorPool patched engine: highest priority (lower priority number wins).
+         @OLVM_CACHE_URL@ is substituted by olvm/build/build-appliance.sh from
+         $OLVM_CACHE_URL before kiwi runs. -->
+    <repository alias="olvm-storpool" priority="1">
+        <source path="@OLVM_CACHE_URL@/ol9/"/>
+    </repository>
     <!-- OL release package: kiwi only activates the composite profile
          (oraclelinux-copr etc), not a bare "oraclelinux", so packages.xml's
          profile-gated bootstrap doesn't match. Pin the release rpm here. -->

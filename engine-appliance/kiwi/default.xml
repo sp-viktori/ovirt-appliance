@@ -47,7 +47,8 @@
         <locale>en_US</locale>
         <keytable>us</keytable>
         <timezone>UTC</timezone>
-        <rpm-check-signatures>true</rpm-check-signatures>
+        <!-- Demo: olvm-storpool repo is unsigned; relax sig check globally. -->
+        <rpm-check-signatures>false</rpm-check-signatures>
         <rpm-excludedocs>true</rpm-excludedocs>
     </preferences>
     <preferences profiles="qcow2">

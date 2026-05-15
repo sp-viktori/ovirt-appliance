@@ -23,9 +23,19 @@ fi
 # Oracle Linux 9 chroot setup: kiwi-level repos don't propagate to
 # /etc/yum.repos.d/ inside the built chroot, so enable CRB and EPEL here
 # (apache-commons-*, jakarta-servlet for engine Java deps).
+# @OLVM_CACHE_URL@ in olvm-storpool.repo is sed-substituted by
+# olvm/build/build-appliance.sh before kiwi runs; the same URL is baked into
+# the deployed appliance.
 if [[ "$kiwi_profiles" == *"oraclelinux"* ]]; then
     dnf -y install epel-release || true
     dnf config-manager --enable ol9_codeready_builder
+    cat > /etc/yum.repos.d/olvm-storpool.repo <<'EOF'
+[olvm-storpool]
+name=OLVM StorPool patched engine
+baseurl=@OLVM_CACHE_URL@/ol9/
+gpgcheck=0
+enabled=1
+EOF
 fi
 
 # Install oVirt Packages
