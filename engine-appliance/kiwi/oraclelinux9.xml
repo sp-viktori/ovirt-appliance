@@ -4,7 +4,7 @@
     <description type="system">
         <author>oVirt Developers</author>
         <contact>devel@ovirt.org</contact>
-        <specification>oVirt Appliance - Oracle Linux 9</specification>
+        <specification>oVirt Appliance - Oracle Linux 9 (OLVM-equivalent + StorPool)</specification>
     </description>
     <include from="file://kiwi/default.xml"/>
     <repository alias="ol9_baseos">
@@ -72,6 +72,14 @@
     <repository alias="olvm-storpool" priority="1">
         <source path="@OLVM_CACHE_URL@/ol9/"/>
     </repository>
+    <!-- OLVM branding: noarch RPMs harvested from Oracle's OL8 channel and
+         served via the local cache. They install on EL9 unchanged. -->
+    <packages type="image">
+        <package name="olvm-branding"/>
+        <package name="olvm-consent-ui-plugin"/>
+        <package name="olvm-vmcontrol"/>
+        <package name="python3-sp-ovirt"/>
+    </packages>
     <!-- OL release package: kiwi only activates the composite profile
          (oraclelinux-copr etc), not a bare "oraclelinux", so packages.xml's
          profile-gated bootstrap doesn't match. Pin the release rpm here. -->

@@ -21,11 +21,12 @@ if [[ "$kiwi_profiles" == *"cbs-testing"* ]]; then
 fi
 
 # Oracle Linux 9 chroot setup: kiwi-level repos don't propagate to
-# /etc/yum.repos.d/ inside the built chroot, so enable CRB and EPEL here
-# (apache-commons-*, jakarta-servlet for engine Java deps).
-# @OLVM_CACHE_URL@ in olvm-storpool.repo is sed-substituted by
-# olvm/build/build-appliance.sh before kiwi runs; the same URL is baked into
-# the deployed appliance.
+# /etc/yum.repos.d/ inside the built chroot, so anchor what's needed here.
+# CRB has apache-commons-* and jakarta-servlet (provides javax.servlet-api).
+# EPEL covers a few smaller deps. @OLVM_CACHE_URL@ is sed-substituted by
+# olvm/build/build-appliance.sh before kiwi runs; the same URL is baked
+# into the deployed appliance, so set OLVM_CACHE_URL to a host the demo
+# engine VM can reach.
 if [[ "$kiwi_profiles" == *"oraclelinux"* ]]; then
     dnf -y install epel-release || true
     dnf config-manager --enable ol9_codeready_builder
@@ -45,3 +46,9 @@ dnf -y install ovirt-engine \
             ovirt-engine-extension-aaa-ldap \
             ovirt-engine-extension-aaa-ldap-setup \
             ovirt-engine-extension-aaa-misc
+
+# StorPool managed-block adapter wiring. python3-sp-ovirt ships
+# /usr/bin/sp-ovirt-adapter; ovirt-engine looks for the adapter under
+# /usr/share/ovirt-engine/managedblock/.
+mkdir -p /usr/share/ovirt-engine/managedblock
+ln -sf /usr/bin/sp-ovirt-adapter /usr/share/ovirt-engine/managedblock/storpool-adapter
