@@ -15,6 +15,9 @@
     <packages type="bootstrap" profiles="almalinux">
         <package name="almalinux-repos"/>
     </packages>
+    <packages type="bootstrap" profiles="oraclelinux">
+        <package name="oraclelinux-release-el9"/>
+    </packages>
     <packages type="image">
         <ignore name="*-firmware"/>
         <namedCollection name="core"/>

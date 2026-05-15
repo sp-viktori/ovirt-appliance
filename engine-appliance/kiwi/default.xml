@@ -30,6 +30,15 @@
         <profile name="almalinux-cbs-release" description="AlmaLinux Image CBS Release">
             <requires profile="cbs-release"/>
         </profile>
+        <profile name="oraclelinux-copr" description="Oracle Linux Image COPR">
+            <requires profile="copr"/>
+        </profile>
+        <profile name="oraclelinux-cbs-testing" description="Oracle Linux Image CBS Testing">
+            <requires profile="cbs-testing"/>
+        </profile>
+        <profile name="oraclelinux-cbs-release" description="Oracle Linux Image CBS Release">
+            <requires profile="cbs-release"/>
+        </profile>
     </profiles>
     <preferences>
         <version>4.5.7</version>
