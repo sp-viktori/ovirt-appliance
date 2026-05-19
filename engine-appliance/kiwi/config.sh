@@ -47,6 +47,16 @@ dnf -y install ovirt-engine \
             ovirt-engine-extension-aaa-ldap-setup \
             ovirt-engine-extension-aaa-misc
 
+# The openjdk %post update-alternatives doesn't materialize inside the
+# kiwi chroot, so /usr/bin/keytool is absent and engine-setup dies at the
+# Misc configuration stage. Pin it to the java-17 keytool explicitly.
+kt=$(ls -1 /usr/lib/jvm/java-17-openjdk-*/bin/keytool 2>/dev/null | head -1)
+if [[ -n "$kt" ]]; then
+    ln -sf "$kt" /usr/bin/keytool
+else
+    echo "WARNING: java-17 keytool not found; engine-setup will fail" >&2
+fi
+
 # StorPool managed-block adapter wiring. python3-sp-ovirt ships
 # /usr/bin/sp-ovirt-adapter; ovirt-engine looks for the adapter under
 # /usr/share/ovirt-engine/managedblock/.
