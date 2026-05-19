@@ -79,6 +79,10 @@
         <package name="olvm-consent-ui-plugin"/>
         <package name="olvm-vmcontrol"/>
         <package name="python3-sp-ovirt"/>
+        <!-- oVirt 4.5 engine-setup needs Java 17 keytool for PKI; only
+             java-11/21-openjdk-headless get pulled transitively on OL9,
+             so pin java-17 explicitly (provides /usr/bin/keytool). -->
+        <package name="java-17-openjdk-headless"/>
     </packages>
     <!-- OL release package: kiwi only activates the composite profile
          (oraclelinux-copr etc), not a bare "oraclelinux", so packages.xml's
