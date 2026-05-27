@@ -67,9 +67,3 @@ if [[ -n "$kt" ]]; then
 else
     echo "WARNING: java-17 keytool not found; engine-setup will fail" >&2
 fi
-
-# StorPool managed-block adapter wiring. python3-sp-ovirt ships
-# /usr/bin/sp-ovirt-adapter; ovirt-engine looks for the adapter under
-# /usr/share/ovirt-engine/managedblock/.
-mkdir -p /usr/share/ovirt-engine/managedblock
-ln -sf /usr/bin/sp-ovirt-adapter /usr/share/ovirt-engine/managedblock/storpool-adapter
