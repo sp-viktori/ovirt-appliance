@@ -37,6 +37,17 @@ baseurl=@OLVM_CACHE_URL@/ol9/
 gpgcheck=0
 enabled=1
 EOF
+    # Frozen extras (oVirt deps we don't rebuild + ceph/cinderlib/ovs/Java),
+    # gathered by olvm/build/gather-extras.sh. Replaces the live COPR + SIG
+    # repos so the engine's deps are pinned and the first-boot dnf update
+    # can't roll a newer ovirt-engine over our build.
+    cat > /etc/yum.repos.d/olvm-storpool-extra.repo <<'EOF'
+[olvm-storpool-extra]
+name=OLVM StorPool frozen extras
+baseurl=@OLVM_CACHE_URL@/ol9-extra/
+gpgcheck=0
+enabled=1
+EOF
 fi
 
 # Install oVirt Packages

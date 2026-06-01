@@ -22,39 +22,18 @@
     <repository sourcetype="metalink">
         <source path="https://mirrors.fedoraproject.org/metalink?repo=epel-9&amp;arch=x86_64"/>
     </repository>
-    <!-- CentOS Stream 9 Extras SIG common: apache-commons-*,
-         glassfish-servlet-api (Java/Maven deps not in OL9 or EPEL). -->
-    <repository sourcetype="metalink">
-        <source path="https://mirrors.centos.org/metalink?repo=centos-extras-sig-extras-common-9-stream&amp;arch=x86_64&amp;protocol=https,http"/>
+    <!-- FROZEN extras: the oVirt packages we don't rebuild + the ceph /
+         cinderlib / openvswitch / Java SIG deps, gathered by
+         olvm/build/gather-extras.sh into out/ol9-extra/. This REPLACES the
+         live ovirt-master-snapshot COPR + every CentOS Stream SIG repo that
+         used to be wired here. Freezing them is the fix for the engine
+         first-boot dnf update silently pulling a newer master-snapshot
+         ovirt-engine over our StorPool build: with no rolling repo present,
+         the only ovirt-engine available is ours from olvm-storpool below.
+         @OLVM_CACHE_URL@ is substituted by olvm/build/build-appliance.sh. -->
+    <repository alias="olvm-storpool-extra">
+        <source path="@OLVM_CACHE_URL@/ol9-extra/"/>
     </repository>
-    <!-- CentOS Stream 9 virt SIG ovirt-45: openstack-java-* 3.2.9,
-         snmp4j, apache-sshd, ed25519-java, ws-commons-util, xmlrpc-client,
-         ansible-runner — engine 4.5.8 transitive deps. -->
-    <repository sourcetype="metalink">
-        <source path="https://mirrors.centos.org/metalink?repo=centos-virt-sig-ovirt-45-9-stream&amp;arch=x86_64&amp;protocol=https,http"/>
-    </repository>
-    <!-- CentOS Stream 9 Storage SIG (ceph-squid): ceph-common. -->
-    <repository alias="centos-storage-ceph-squid">
-        <source path="https://buildlogs.centos.org/centos/9-stream/storage/x86_64/ceph-squid/"/>
-    </repository>
-    <!-- CentOS Stream 9 Cloud SIG (openstack-antelope): python3-cinderlib. -->
-    <repository alias="centos-cloud-openstack-antelope">
-        <source path="https://mirror.stream.centos.org/SIGs/9-stream/cloud/x86_64/openstack-antelope/"/>
-    </repository>
-    <!-- CentOS Stream 9 NFV SIG (openvswitch-2): python3-openvswitch2.17,
-         needed by ovirt-python-openvswitch -> ovirt-provider-ovn -> engine. -->
-    <repository alias="centos-nfv-openvswitch-2">
-        <source path="https://mirror.stream.centos.org/SIGs/9-stream/nfv/x86_64/openvswitch-2/"/>
-    </repository>
-    <!-- COPR -->
-    <repository alias="copr_ovirt-master-snapshot" profiles="copr">
-        <source path="https://download.copr.fedorainfracloud.org/results/ovirt/ovirt-master-snapshot/centos-stream-9-x86_64/">
-            <signing key="https://download.copr.fedorainfracloud.org/results/ovirt/ovirt-master-snapshot/pubkey.gpg"/>
-        </source>
-    </repository>
-    <packages type="image" profiles="copr">
-        <package name="ovirt-release-master"/>
-    </packages>
     <!-- CBS Testing (CentOS Stream Virt SIG ovirt-45 testing) -->
     <repository alias="centos-virt-extras" profiles="cbs-testing">
         <source path="https://buildlogs.centos.org/centos/9-stream/extras/x86_64/extras-common/"/>
