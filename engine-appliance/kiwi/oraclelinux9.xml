@@ -19,12 +19,15 @@
     <repository alias="ol9_codeready_builder">
         <source path="https://yum.oracle.com/repo/OracleLinux/OL9/codeready/builder/x86_64/"/>
     </repository>
-    <repository sourcetype="metalink">
-        <source path="https://mirrors.fedoraproject.org/metalink?repo=epel-9&amp;arch=x86_64"/>
+    <!-- Oracle's EPEL (ol9_developer_EPEL): same NVRs as upstream EPEL but
+         Oracle-hosted + Oracle-signed, matching olvm/build/extras.sh's gather
+         context. collectd & a few smaller engine deps live here. -->
+    <repository alias="ol9_developer_EPEL">
+        <source path="https://yum.oracle.com/repo/OracleLinux/OL9/developer/EPEL/x86_64/"/>
     </repository>
     <!-- FROZEN extras: the oVirt packages we don't rebuild + the ceph /
          cinderlib / openvswitch / Java SIG deps, gathered by
-         olvm/build/gather-extras.sh into out/ol9-extra/. This REPLACES the
+         olvm/build/extras.sh into out/ol9-extra/. This REPLACES the
          live ovirt-master-snapshot COPR + every CentOS Stream SIG repo that
          used to be wired here. Freezing them is the fix for the engine
          first-boot dnf update silently pulling a newer master-snapshot

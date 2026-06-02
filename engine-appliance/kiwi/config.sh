@@ -28,8 +28,8 @@ fi
 # into the deployed appliance, so set OLVM_CACHE_URL to a host the demo
 # engine VM can reach.
 if [[ "$kiwi_profiles" == *"oraclelinux"* ]]; then
-    dnf -y install epel-release || true
-    dnf config-manager --enable ol9_codeready_builder
+    dnf -y install oracle-epel-release-el9 || true
+    dnf config-manager --enable ol9_codeready_builder ol9_developer_EPEL
     cat > /etc/yum.repos.d/olvm-storpool.repo <<'EOF'
 [olvm-storpool]
 name=OLVM StorPool patched engine
@@ -38,7 +38,7 @@ gpgcheck=0
 enabled=1
 EOF
     # Frozen extras (oVirt deps we don't rebuild + ceph/cinderlib/ovs/Java),
-    # gathered by olvm/build/gather-extras.sh. Replaces the live COPR + SIG
+    # gathered by olvm/build/extras.sh. Replaces the live COPR + SIG
     # repos so the engine's deps are pinned and the first-boot dnf update
     # can't roll a newer ovirt-engine over our build.
     cat > /etc/yum.repos.d/olvm-storpool-extra.repo <<'EOF'
